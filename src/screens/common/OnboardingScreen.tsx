@@ -14,6 +14,8 @@ import {
 import { StackNavigationProp } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
 import { colors, shadows } from '../../theme/colors';
+import { useAuth } from '../../hooks/useAuth';
+import Button from '../../components/shared/Button';
 
 const { width } = Dimensions.get('window');
 const isWeb = Platform.OS === 'web';
@@ -344,6 +346,7 @@ type OnboardingScreenProps = {
 export default function OnboardingScreen({ navigation }: OnboardingScreenProps) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [visibleCategories, setVisibleCategories] = useState(4); // Começa com 4, você pode aumentar
+  const { loginAsCustomer, loginAsSupplier } = useAuth();
 
   const renderProductCategory = (category: typeof productCategories[0]) => (
     <View key={category.id} style={styles.categoryCard}>
@@ -398,6 +401,18 @@ export default function OnboardingScreen({ navigation }: OnboardingScreenProps) 
       </View>
 
       {/* Conteúdo Principal */}
+      {/* Quick entry options (1,2,3) */}
+      <View style={styles.quickOptions}>
+        <Text style={styles.quickOptionsTitle}>Como deseja entrar?</Text>
+        <Text style={styles.quickOptionsSubtitle}>Escolha uma opção para começar:</Text>
+        <View style={styles.quickOptionsRow}>
+          <Button title={"1 — Explorar como Visitante"} onPress={() => navigation.navigate('GuestHome')} />
+          <View style={{ width: 12 }} />
+          <Button title={"2 — Entrar como Cliente"} variant="secondary" onPress={() => { loginAsCustomer(); }} />
+          <View style={{ width: 12 }} />
+          <Button title={"3 — Entrar como Fornecedor"} variant="outline" onPress={() => { loginAsSupplier(); }} />
+        </View>
+      </View>
       <ScrollView 
         style={styles.scrollView}
         contentContainerStyle={styles.scrollContent}
@@ -1006,6 +1021,28 @@ const styles = StyleSheet.create({
   },
   bottomSpacer: {
     height: 50,
+  },
+  quickOptions: {
+    paddingHorizontal: getResponsiveValue(20, 40),
+    paddingVertical: 20,
+    marginBottom: 20,
+    backgroundColor: 'transparent',
+  },
+  quickOptionsTitle: {
+    fontSize: getResponsiveValue(18, 22),
+    fontWeight: '700',
+    color: colors.text,
+    marginBottom: 6,
+  },
+  quickOptionsSubtitle: {
+    fontSize: getResponsiveValue(13, 15),
+    color: colors.textLight,
+    marginBottom: 12,
+  },
+  quickOptionsRow: {
+    flexDirection: isWeb ? 'row' : 'column',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
   footer: {
     position: 'absolute',

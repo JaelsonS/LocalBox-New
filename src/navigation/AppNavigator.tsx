@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { AuthProvider, useAuth } from '../hooks/useAuth';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -213,57 +214,48 @@ function SupplierStack() {
 
 // ========== NAVEGAÇÃO PRINCIPAL ==========
 
-export default function AppNavigator() {
+function InnerNavigator() {
   const [isLoading, setIsLoading] = useState(true);
-  const [user, setUser] = useState<any>(null);
-  const [userType, setUserType] = useState<'customer' | 'supplier' | null>(null);
+  const { user } = useAuth();
 
   useEffect(() => {
-    // Simular carregamento inicial
-    setTimeout(() => {
-      setIsLoading(false);
-      // TODO: Verificar se usuário já está logado no AsyncStorage
-    }, 2000);
+    setTimeout(() => setIsLoading(false), 1000);
   }, []);
 
   if (isLoading) {
-    return <SplashScreen navigation={undefined as any} />;
+    return (
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Splash" component={SplashScreen} />
+      </Stack.Navigator>
+    );
   }
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        {!user ? (
-          // Usuário NÃO logado
-          <>
-            <Stack.Screen 
-              name="Onboarding" 
-              component={OnboardingScreen} 
-            />
-            <Stack.Screen 
-              name="Login" 
-              component={LoginScreen} 
-            />
-            <Stack.Screen 
-              name="RegisterType" 
-              component={RegisterTypeScreen}
-              options={{ 
-                headerShown: true,
-                title: 'Tipo de Cadastro',
-                headerStyle: { backgroundColor: '#1E40AF' },
-                headerTintColor: '#FFFFFF',
-              }}
-            />
-          </>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      {!user ? (
+        <>
+          <Stack.Screen name="GuestHome" component={HomeScreen} />
+          <Stack.Screen name="Onboarding" component={OnboardingScreen} />
+          <Stack.Screen name="Login" component={LoginScreen} />
+          <Stack.Screen name="RegisterType" component={RegisterTypeScreen} options={{ headerShown: true, title: 'Tipo de Cadastro', headerStyle: { backgroundColor: '#1E40AF' }, headerTintColor: '#FFFFFF' }} />
+        </>
+      ) : (
+        user.type === 'customer' ? (
+          <Stack.Screen name="Customer" component={CustomerStack} />
         ) : (
-          // Usuário LOGADO - redirecionar conforme tipo
-          userType === 'customer' ? (
-            <Stack.Screen name="Customer" component={CustomerStack} />
-          ) : (
-            <Stack.Screen name="Supplier" component={SupplierStack} />
-          )
-        )}
-      </Stack.Navigator>
-    </NavigationContainer>
+          <Stack.Screen name="Supplier" component={SupplierStack} />
+        )
+      )}
+    </Stack.Navigator>
+  );
+}
+
+export default function AppNavigator() {
+  return (
+    <AuthProvider>
+      <NavigationContainer>
+        <InnerNavigator />
+      </NavigationContainer>
+    </AuthProvider>
   );
 }
