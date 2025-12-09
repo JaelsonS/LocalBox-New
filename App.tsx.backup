@@ -1,0 +1,118 @@
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView } from 'react-native';
+
+export default function App() {
+  const [screen, setScreen] = useState('splash');
+
+  useEffect(() => {
+    if (screen === 'splash') {
+      setTimeout(() => setScreen('login'), 2000);
+    }
+  }, [screen]);
+
+  if (screen === 'splash') {
+    return (
+      <SafeAreaView style={styles.splashContainer}>
+        <View style={styles.splashContent}>
+          <Text style={styles.logo}>🏪 LocalBox</Text>
+          <Text style={styles.slogan}>Marketplace Local</Text>
+        </View>
+      </SafeAreaView>
+    );
+  }
+
+  if (screen === 'login') {
+    return (
+      <SafeAreaView style={styles.container}>
+        <View style={styles.content}>
+          <Text style={styles.title}>Bem-vindo!</Text>
+          <Text style={styles.subtitle}>Teste inicial do app</Text>
+          
+          <TouchableOpacity 
+            style={styles.button}
+            onPress={() => setScreen('home')}>
+            <Text style={styles.buttonText}>▶️ Começar</Text>
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
+    );
+  }
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.content}>
+        <Text style={styles.title}>🎉 Sucesso!</Text>
+        <Text style={styles.text}>App funcionando perfeitamente!</Text>
+        <Text style={styles.text}>Pronto para as próximas telas.</Text>
+        
+        <TouchableOpacity 
+          style={[styles.button, { marginTop: 30 }]}
+          onPress={() => setScreen('login')}>
+          <Text style={styles.buttonText}>🔄 Reiniciar</Text>
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
+  );
+}
+
+const styles = StyleSheet.create({
+  splashContainer: {
+    flex: 1,
+    backgroundColor: '#F5F3E8',
+  },
+  splashContent: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  logo: {
+    fontSize: 48,
+    fontWeight: 'bold',
+    color: '#5A7D45',
+    marginBottom: 20,
+  },
+  slogan: {
+    fontSize: 18,
+    color: '#1B1B1B',
+    textAlign: 'center',
+  },
+  container: {
+    flex: 1,
+    backgroundColor: '#F5F3E8',
+  },
+  content: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  title: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    color: '#5A7D45',
+    marginBottom: 20,
+  },
+  subtitle: {
+    fontSize: 18,
+    color: '#666',
+    marginBottom: 40,
+  },
+  text: {
+    fontSize: 16,
+    color: '#1B1B1B',
+    marginBottom: 10,
+  },
+  button: {
+    backgroundColor: '#5A7D45',
+    paddingHorizontal: 30,
+    paddingVertical: 15,
+    borderRadius: 10,
+    marginTop: 20,
+  },
+  buttonText: {
+    color: '#F5F3E8',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+});

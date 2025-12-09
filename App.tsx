@@ -1,20 +1,42 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import AppNavigator from './src/navigation/AppNavigator';
+import { Platform, StyleSheet, View } from 'react-native';
 
-export default function App() {
+// Componente para web com scroll funcionando
+function WebContainer({ children }: { children: React.ReactNode }) {
+  if (Platform.OS !== 'web') {
+    return <>{children}</>;
+  }
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
+    <View style={styles.webContainer}>
+      <View style={styles.webContent}>
+        {children}
+      </View>
     </View>
   );
 }
 
+export default function App() {
+  return (
+    <WebContainer>
+      <NavigationContainer>
+        <AppNavigator />
+      </NavigationContainer>
+    </WebContainer>
+  );
+}
+
 const styles = StyleSheet.create({
-  container: {
+  webContainer: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    width: '100%',
+    height: '100vh',
+    overflow: 'auto',
+  },
+  webContent: {
+    width: '100%',
+    minHeight: '100vh',
   },
 });
