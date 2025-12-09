@@ -7,7 +7,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 
 
 
-type LoginScreenProps = {
+type RegisterTypeScreenProps = {
 
   navigation: StackNavigationProp<any>;
 
@@ -15,13 +15,13 @@ type LoginScreenProps = {
 
 
 
-export default function LoginScreen({ navigation }: LoginScreenProps) {
+export default function RegisterTypeScreen({ navigation }: RegisterTypeScreenProps) {
 
   return (
 
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
 
-      <Text>Login Screen</Text>
+      <Text>Register Type Screen</Text>
 
     </View>
 

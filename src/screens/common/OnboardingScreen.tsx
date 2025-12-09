@@ -12,7 +12,7 @@ import {
   Platform,
 } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import { Ionicons } from '@expo/vector-icons';
 import { colors, shadows } from '../../theme/colors';
 
 const { width } = Dimensions.get('window');

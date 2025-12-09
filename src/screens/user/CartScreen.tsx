@@ -5,13 +5,13 @@ import { View, Text } from 'react-native';
 
 
 
-export default function DashboardScreen() {
+export default function CartScreen() {
 
   return (
 
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
 
-      <Text>Dashboard Screen</Text>
+      <Text>Cart Screen</Text>
 
     </View>
 
