@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { AuthProvider, useAuth } from '../hooks/useAuth';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -6,7 +6,6 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 
 // Telas comuns
-import SplashScreen from '../screens/common/SplashScreen';
 import OnboardingScreen from '../screens/common/OnboardingScreen';
 import LoginScreen from '../screens/common/LoginScreen';
 import RegisterTypeScreen from '../screens/common/RegisterTypeScreen';
@@ -215,32 +214,31 @@ function SupplierStack() {
 // ========== NAVEGAÇÃO PRINCIPAL ==========
 
 function InnerNavigator() {
-  const [isLoading, setIsLoading] = useState(true);
   const { user } = useAuth();
-
-  useEffect(() => {
-    setTimeout(() => setIsLoading(false), 1000);
-  }, []);
-
-  if (isLoading) {
-    return (
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Splash" component={SplashScreen} />
-      </Stack.Navigator>
-    );
-  }
 
   return (
     <Stack.Navigator 
       screenOptions={{ headerShown: false }}
-      initialRouteName={!user ? 'Onboarding' : undefined}
     >
       {!user ? (
         <>
-          <Stack.Screen name="Onboarding" component={OnboardingScreen} />
-          <Stack.Screen name="GuestHome" component={HomeScreen} />
-          <Stack.Screen name="Login" component={LoginScreen} />
-          <Stack.Screen name="RegisterType" component={RegisterTypeScreen} options={{ headerShown: true, title: 'Tipo de Cadastro', headerStyle: { backgroundColor: '#1E40AF' }, headerTintColor: '#FFFFFF' }} />
+          <Stack.Screen 
+            name="Onboarding" 
+            component={OnboardingScreen}
+          />
+          <Stack.Screen 
+            name="GuestHome" 
+            component={HomeScreen}
+          />
+          <Stack.Screen 
+            name="Login" 
+            component={LoginScreen}
+          />
+          <Stack.Screen 
+            name="RegisterType" 
+            component={RegisterTypeScreen} 
+            options={{ headerShown: true, title: 'Tipo de Cadastro', headerStyle: { backgroundColor: '#1E40AF' }, headerTintColor: '#FFFFFF' }}
+          />
         </>
       ) : (
         user.type === 'customer' ? (
