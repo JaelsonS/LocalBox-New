@@ -231,11 +231,14 @@ function InnerNavigator() {
   }
 
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Navigator 
+      screenOptions={{ headerShown: false }}
+      initialRouteName={!user ? 'Onboarding' : undefined}
+    >
       {!user ? (
         <>
-          <Stack.Screen name="GuestHome" component={HomeScreen} />
           <Stack.Screen name="Onboarding" component={OnboardingScreen} />
+          <Stack.Screen name="GuestHome" component={HomeScreen} />
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="RegisterType" component={RegisterTypeScreen} options={{ headerShown: true, title: 'Tipo de Cadastro', headerStyle: { backgroundColor: '#1E40AF' }, headerTintColor: '#FFFFFF' }} />
         </>
