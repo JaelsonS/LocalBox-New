@@ -9,7 +9,7 @@
     "web": "expo start --web",
     "build": "expo export --platform web",
     "build:web": "expo export --platform web",
-    "vercel-build": "expo export --platform web --no-dev --minify"
+    "vercel-build": "expo export --platform web --minify"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.3",
